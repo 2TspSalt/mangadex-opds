@@ -40,6 +40,13 @@ func FetchChapter(
 	}
 
 	data, err := shared.QueryAPI[Data[Chapter]](ctx, queryPath, queryParams)
+	if err != nil {
+		return data.Data, err
+	}
+
+	data.Data.FullTitle()
+	data.Data.Manga()
+	_, err = data.Data.FetchImageURLs(ctx)
 
 	return data.Data, err
 }
